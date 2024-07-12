@@ -1,7 +1,7 @@
 mysql_host = "127.0.0.1"
 mysql_port = 3306
 mysql_user = "developer"
-mysql_ps = "20010828a"
+mysql_ps = "developerpassword"
 mysql_database = "SpacToolChainDB"
 class Config():
     """Configuration settings for the project"""
