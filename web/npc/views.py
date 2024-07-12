@@ -7,13 +7,12 @@ from models.NPC import NPC
 def add_npc_by_json():
     add_npc_data = request.get_json()
     try:
-        id =
-        new_npc = NPC(npcId=add_npc_data[''])
+        new_npc = NPC(npcID=add_npc_data['npcID'], name=add_npc_data['name'], familiarList=add_npc_data["familiarList"])
         db.session.add(new_npc)
         db.session.commit()
         status_code = 200
         result = {
-            "id": id,
+            "id": new_npc.id,
         }
     except:
         db.session.rollback()
@@ -22,9 +21,10 @@ def add_npc_by_json():
             "msg": "Failed to add a new NPC. Please check the query data.",
             "code": status_code
         }
-        return jsonify(result), status_code
+    return jsonify(result), status_code
 
 @npc.route('/npc/delete', methods=['POST'])
 def delete_npc_by_json():
-    delete_npo_data = request.get_json()
+    delete_npc_data = request.get_json()
+    #
     npc = NPC.query.get()

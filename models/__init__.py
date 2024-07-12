@@ -4,4 +4,7 @@ db = SQLAlchemy()
 # def init_app(app):
 #     db.init_app(app)
 
-from models import NPC
+from . import NPC
+from . import Familiar
+from . import Condition
+from . import Trigger

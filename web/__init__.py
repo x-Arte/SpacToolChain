@@ -13,8 +13,10 @@ def create_app():
     db.init_app(app)
 
     # register blueprint separately
-    from web.npc import views
-    app.register_blueprint(npc)
+    from .npc import npc
+    from .function import function
+    app.register_blueprint(npc)# dont use url_preflix
+    app.register_blueprint(function)
 
     # create database table
     with app.app_context():
