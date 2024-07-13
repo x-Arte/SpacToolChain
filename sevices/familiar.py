@@ -2,16 +2,16 @@ from models.Familiar import Familiar
 from . import dialogue
 from models import db
 
-def create_new_familiar(maxSubFamiliarLevel, nextFamiliarLevelID = None, firstDialogueID = None):
+def add_new_familiar(maxSubFamiliarLevel, nextFamiliarLevelID = None, firstDialogueID = None, defaultNextDialogue = None):
     """
-    create a new familiar level in db. If failed to create, db would roll back.
+    add a new familiar level to db. If failed to add, db would roll back.
     :param maxSubFamiliarLevel: integer;
     :param nextFamiliarLevelID: integer;
     :param firstDialogueID: default None;
     :return: integer; newFamiliar ID; If failed to create, return None.
     """
     try:
-        newFamiliar = Familiar(maxSubFamiliarLevel=maxSubFamiliarLevel, nextFamiliarLevelID=nextFamiliarLevelID, firstDialogueID=firstDialogueID)
+        newFamiliar = Familiar(maxSubFamiliarLevel=maxSubFamiliarLevel, nextFamiliarLevelID=nextFamiliarLevelID, firstDialogueID=firstDialogueID, defaultNextDialogue=defaultNextDialogue)
         db.session.add(newFamiliar)
         db.session.commit()
         newFamiliarID = newFamiliar.id

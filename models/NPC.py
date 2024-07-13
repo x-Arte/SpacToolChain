@@ -1,7 +1,7 @@
 from flask_sqlalchemy import SQLAlchemy
 from . import db
 from . import Familiar
-from sevices.familiar import create_new_familiar
+from sevices.familiar import add_new_familiar
 class NPC(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     npcID = db.Column(db.String(255), unique=True, nullable=False)
