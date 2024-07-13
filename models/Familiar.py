@@ -3,6 +3,20 @@ from . import db
 
 class Familiar(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    maxFamiliarLevel = db.Column(db.Integer, unique=False, nullable=False)
-    nextFamiliarLevel = db.Column(db.Integer, unique=True, nullable=True)
-    firstDialogue = db.Column(db.Integer, unique=False, nullable=True)
+    maxSubFamiliarLevel = db.Column(db.Integer, unique=False, nullable=False)
+    nextFamiliarLevelID = db.Column(db.Integer, unique=False, nullable=True)
+    firstDialogueID = db.Column(db.Integer, unique=False, nullable=True)
+
+    def __init__(self, maxSubFamiliarLevel, nextFamiliarLevelID = None, firstDialogueID = None):
+        """
+        create a Familiar Level
+        :param maxSubFamiliarLevel: integer;
+        :param nextFamiliarLevelID: integer; link node
+        :param firstDialogueID: integer; can be None when creating
+        """
+        self.maxSubFamiliarLevel = maxSubFamiliarLevel
+        self.nextFamiliarLevelID = nextFamiliarLevelID
+        self.firstDialogueID = firstDialogueID
+
+    def __repr__(self):
+        return f'<FamiliarLevel: {self.id, self.maxSubFamiliarLevel}>'

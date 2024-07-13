@@ -17,8 +17,9 @@ def add_function_by_json():
         db.session.commit()
         status_code = 200
         result = {}
-    except:
+    except Exception as e:
         db.session.rollback()
+        print(f"An error occurred: {e}")
         status_code = 400
         result = {}
 
