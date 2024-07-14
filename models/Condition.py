@@ -7,10 +7,3 @@ class Condition(db.Model):
 
     def __repr__(self):
         return f'<Condition {self.name, self.description}>'
-
-    def to_dict(self):
-        return {
-            "id": str(self.id),
-            "functionName": self.name,
-            "description": self.description
-        }

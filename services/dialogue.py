@@ -1,6 +1,6 @@
 from models.Dialogue import Dialogue
 from models import db
-from sevices import selection
+from services import selection
 
 def delete_dialogue(dialogue):
     """

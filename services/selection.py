@@ -7,4 +7,5 @@ def delete_selection_list(firstSelectionID):
     :param firstSelectionID: integer; the temp head of the selection list
     :return: boolean; whether successfully delete the list
     """
+    #TODO: complete
     return True

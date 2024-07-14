@@ -10,9 +10,3 @@ class Trigger(db.Model):
     def __repr__(self):
         return f'<Trigger {self.name, self.description}>'
 
-    def to_dict(self):
-        return {
-            "id": str(self.id),
-            "functionName": self.name,
-            "description": self.description
-        }

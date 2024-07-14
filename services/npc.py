@@ -33,3 +33,41 @@ def delete_npc(npc):
         db.session.commit()
 
     return delete
+
+def update_npc(npc, npcID, name, familiarList):
+    """
+    update npc infor
+    :param npc: class NPC (models); must not be None
+    :param npcID: string;
+    :param name: string;
+    :param familiarList: arrayList[{"id":string, "maxSubFamiliarLevel": integer}]; new familiar list
+    :return: boolean; whether successfully update its related data (familiar list)
+    """
+    try:
+        npc.npcID = npcID
+        npc.name = name
+        npc.maxFamiliarLevel = len(familiarList)
+        npc.firstFamiliarLevelID = familiar.update_familiar_list(firstFamiliarLevelID=npc.firstFamiliarLevelID, familiarList=familiarList)
+        db.session.commit()
+        update = True
+    except Exception as e:
+        db.session.rollback()
+        print(f"An error occurred: {e}")
+        update = False
+    return update
+
+def to_dict(npc, details = False):
+    """
+    generate npc information dict
+    :param npc: class NPC (models); must not be None
+    :param details: boolean; whether to show familiar list details
+    :return: dict;
+    """
+    result = {
+        "id": str(npc.id),
+        "npcID": npc.npcID,
+        "name": npc.name
+    }
+    if details:
+        result['familiarList'] = familiar.get_familiar_list_data(firstFamiliarLevelID=npc.firstFamiliarLevelID)
+    return result

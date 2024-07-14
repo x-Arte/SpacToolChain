@@ -3,7 +3,7 @@ from flask import request, jsonify
 from models import db
 from models.Condition import Condition
 from models.Trigger import Trigger
-
+import services.function
 @function.route("/function/add", methods=['POST'])
 def add_function_by_json():
     add_function_data = request.get_json()
@@ -70,7 +70,7 @@ def get_function_list_by_json():
             all_func = Condition.query.all()
         else:
             all_func = Trigger.query.all()
-        func_list = [func.to_dict() for func in all_func]
+        func_list = [services.function.to_dict(func) for func in all_func]
         status_code = 200
         result = {"list": func_list}
     except:

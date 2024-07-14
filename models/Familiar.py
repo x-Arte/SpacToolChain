@@ -16,6 +16,7 @@ class Familiar(db.Model):
         :param maxSubFamiliarLevel: integer;
         :param nextFamiliarLevelID: integer; link node
         :param firstDialogueID: integer; can be None when creating
+        :param defaultNextDialogue: integer; attribute in game, not in db
         """
         self.maxSubFamiliarLevel = maxSubFamiliarLevel
         self.nextFamiliarLevelID = nextFamiliarLevelID
