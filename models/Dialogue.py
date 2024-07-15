@@ -10,6 +10,6 @@ class Dialogue(db.Model):
     defaultNextDialogue = db.Column(db.Integer, unique=False, nullable=True)
     content = db.Column(db.Text, unique=False, nullable=True)
     speaker = db.Column(db.String(255), unique=False, nullable=True)
-    jumpMethod = db.Column(db.Integer, unique=False, nullable=True)
+    nextMode = db.Column(db.String(255), unique=False, nullable=True)
     posx = db.Column(db.Float, unique=False, nullable=True)
     posy = db.Column(db.Float, unique=False, nullable=True)
