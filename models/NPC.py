@@ -6,8 +6,8 @@ class NPC(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     npcID = db.Column(db.String(255), unique=True, nullable=False)
     name = db.Column(db.String(255), unique=False, nullable=False)
-    maxFamiliarLevel = db.Column(db.Integer, unique=False, nullable=False) #start from 1
-    firstFamiliarLevelID = db.Column(db.Integer, unique=True, nullable=False)
+    maxFamiliarLevel = db.Column(db.Integer, unique=False, nullable=True) #start from 1
+    firstFamiliarLevelID = db.Column(db.Integer, unique=False, nullable=True)
     def __init__(self, npcID, name, maxFamiliarLevel, firstFamiliarLevelID = None):
         """
         create a NPC

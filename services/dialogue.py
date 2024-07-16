@@ -33,3 +33,18 @@ def delete_dialogue_list(firstDialogueID):
         db.session.rollback()
         delete = False
     return delete
+
+def get_dialogue_count(thisDialogueID):
+    """
+    count the dialogue number of a dialogue list
+    :param thisDialogueID: integer; the temp head of the dialogue list
+    :return: integer; the number of dialogues
+    """
+    if thisDialogueID:
+        dialogue = Dialogue.query.get(thisDialogueID)
+        if dialogue:
+            if dialogue.nextDialogueID:
+                return 1 + get_dialogue_count(int(dialogue.nextDialogueID))
+            else:
+                return 1
+    return 0

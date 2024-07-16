@@ -72,16 +72,17 @@ def update_familiar_list(firstFamiliarLevelID, familiarList):
         except Exception as e:
             db.session.rollback()
             print(f"An error occurred when checking the original familiar list: {e}")
-
     # step 2: Iterate through the new familiar list and check the original map if each node exists. Save the id to the sorted new list.
     # if exists: update the familiar node
     # else: add a new familiar node to db
     sortedNewIDList = [] # integer list
     for i in range(len(familiarList)):
         try:
-            tempFamiliar = Familiar.query.get(int(familiarList[i]['id']))
-            if tempFamiliar:
+            # did not check when familiarList[i]['id'] is not None but not in the originalMap
+            # May cause bugs
+            if familiarList[i]['id']:
                 try:
+                    tempFamiliar = Familiar.query.get(int(familiarList[i]['id']))
                     tempFamiliar.maxSubFamiliarLevel = familiarList[i]['maxSubFamiliarLevel']
                     db.session.commit()
                     originalMap[tempFamiliar.id] = True
@@ -94,8 +95,7 @@ def update_familiar_list(firstFamiliarLevelID, familiarList):
                 sortedNewIDList.append(newFamiliarID)
         except Exception as e:
             db.session.rollback()
-            print(f"An error occurred when get a familiar node id: {e}")
-
+            print(f"An error occurred when iterate through the new familiar list: {e}")
     # step 3: Iterate through the original list map and delete all nodes whose ids do not appear in the new ID list
     for id in originalMap.keys():
         if not originalMap[id]:
@@ -104,7 +104,6 @@ def update_familiar_list(firstFamiliarLevelID, familiarList):
                 delete_familiar(tempFamiliar)
             except:
                 db.session.rollback()
-
     # step 4: Reconnect the list according to the sortedNewIDList
     for i in range(len(sortedNewIDList) - 1):
         thisFamiliar = Familiar.query.get(sortedNewIDList[i])
@@ -113,19 +112,38 @@ def update_familiar_list(firstFamiliarLevelID, familiarList):
             db.session.commit()
         else:
             db.session.rollback()
+    endFamiliar = Familiar.query.get(sortedNewIDList[-1])
+    endFamiliar.nextFamiliarLevelID = None
 
     if sortedNewIDList[0]:
         newfirstFamiliarLevelID = sortedNewIDList[0]
     else:
         newfirstFamiliarLevelID = None
     return newfirstFamiliarLevelID
-
+def get_familiar_data(familiarID):
+    """
+    get familiar data by familiarID
+    :param familiarID: integer;
+    :return: dict{"id":integer, "maxSubFamiliarLevel": integer, "dialogue_cnt": integer}; If failed to get, return None.
+    """
+    try:
+        familiar = Familiar.query.get(familiarID)
+        result = {"id": str(familiarID), "maxSubFamiliarLevel": familiar.maxSubFamiliarLevel}
+        dialogCount = dialogue.get_dialogue_count(familiar.firstDialogueID)
+        result["dialogCount"] = dialogCount
+    except:
+        result = None
+    return result
 def get_familiar_list_data(firstFamiliarLevelID):
     """
 
-    :param firstFamiliarLevelID:
-    :return:
+    :param firstFamiliarLevelID: integer;
+    :return: list[dict{"id":integer, "maxSubFamiliarLevel": integer, "dialogue_cnt": integer}];
     """
-    #TODO: complete
     result = []
+    thisFamiliarID = firstFamiliarLevelID
+    while thisFamiliarID:
+        thisFamiliar = Familiar.query.get(thisFamiliarID)
+        result.append(get_familiar_data(thisFamiliar.id))
+        thisFamiliarID = thisFamiliar.nextFamiliarLevelID
     return result
